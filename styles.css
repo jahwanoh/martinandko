@@ -242,10 +242,21 @@ section[id] { scroll-margin-top: 20px; }
 
 .hero-scroll:hover { background: rgb(246 242 233 / .22); }
 
+@media (prefers-reduced-motion: no-preference) {
+  .hero-inner > * {
+    --reveal-opacity: 0;
+    animation: enter-view .76s cubic-bezier(.22, .61, .36, 1) backwards;
+  }
+
+  .hero-inner h1 { animation-delay: .12s; }
+  .hero-inner .button { animation-delay: .24s; }
+  .hero-inner .button:focus-visible { animation: none; }
+}
+
 [data-reveal].has-entered { animation: enter-view .65s ease-out both; }
 
 @keyframes enter-view {
-  from { opacity: .72; transform: translateY(20px); }
+  from { opacity: var(--reveal-opacity, .72); transform: translateY(20px); }
   to { opacity: 1; transform: none; }
 }
 
@@ -599,8 +610,16 @@ h2 em { font-weight: inherit; }
   .hero-kicker { font-size: 10px; letter-spacing: .2em; }
   .hero-media img { object-position: center; }
   .hero-bottom { bottom: 17px; }
-  .hero-bottom > a:not(.hero-scroll) { font-size: 9px; letter-spacing: .08em; }
-  .hero-scroll { width: 38px; }
+  .hero-bottom > a:not(.hero-scroll) {
+    display: flex;
+    align-items: center;
+    gap: .35em;
+    min-height: 44px;
+    font-size: 9px;
+    letter-spacing: .08em;
+  }
+  .hero-scroll { width: 44px; }
+  .header-location { display: inline-flex; align-items: center; min-height: 44px; }
   .header-location, .menu-toggle, .primary-nav a { font-size: 10px; letter-spacing: .1em; }
   .menu-dialog { width: min(480px, 88vw); }
   .section-heading { align-items: start; flex-direction: column; gap: 15px; }
@@ -612,6 +631,16 @@ h2 em { font-weight: inherit; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
   .footer-inner > p { grid-row: 2; }
   .footer-inner > a:last-child { grid-column: 2; grid-row: 1 / span 2; }
+}
+
+@media (max-width: 1024px) and (max-height: 500px) and (orientation: landscape) {
+  .header-inner { min-height: 58px; }
+  .hero { min-height: max(320px, 100svh); }
+  .hero-inner { padding-block: 68px 78px; }
+  .hero h1 { font-size: clamp(60px, 17svh, 88px); margin-block: 5px 16px; }
+  .hero-bottom { bottom: 12px; }
+  .menu-dialog nav { margin-block: 10px 16px; }
+  .menu-dialog nav a { font-size: 32px; padding-block: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
